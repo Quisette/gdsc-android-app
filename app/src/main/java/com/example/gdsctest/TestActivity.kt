@@ -7,11 +7,12 @@ import android.widget.Button
 class TestActivity : AppCompatActivity() {
     lateinit var backbutton: Button
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportActionBar?.title = "GDSC New Activity Instance"
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_number_generator)
-        backbutton = findViewById(R.id.backButton)
+        backbutton = findViewById(R.id.backButton) //
         backbutton.setOnClickListener {
-            finish()
+            finish() // closes this activity
         }
     }
 }
