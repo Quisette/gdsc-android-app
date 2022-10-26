@@ -1,5 +1,6 @@
 package com.example.gdsctest
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -16,10 +17,12 @@ class TimerActivity : AppCompatActivity() {
     lateinit var resetButton:Button
     lateinit var toggleButton:Button
     lateinit var time: CountDownTimer
+    lateinit var mediaPlayer: MediaPlayer
     var isTicking  = false
     var totalSeconds=0
     var remainingTime = 0
     override fun onCreate(savedInstanceState: Bundle?) {
+        mediaPlayer = MediaPlayer.create( this, R.raw.se);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
         supportActionBar?.title = "GDSC Countdown Timer"
@@ -55,6 +58,7 @@ class TimerActivity : AppCompatActivity() {
                     override fun onFinish() {
                         toggleButton.text = "start"
                         isTicking = false
+                        mediaPlayer.start()
                         Toast.makeText(this@TimerActivity,"time's up!",Toast.LENGTH_SHORT).show()
                         resetButton.visibility = View.GONE
 
@@ -80,6 +84,12 @@ class TimerActivity : AppCompatActivity() {
         }
 
 
+
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        time.cancel()
     }
 
 }
