@@ -5,14 +5,23 @@ import android.os.Bundle
 import android.widget.Button
 
 class TestActivity : AppCompatActivity() {
+
     lateinit var backbutton: Button
+
+    //  This will be called once on initialization
     override fun onCreate(savedInstanceState: Bundle?) {
-        supportActionBar?.title = "GDSC New Activity Instance"
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_number_generator)
-        backbutton = findViewById(R.id.backButton) //
+
+        supportActionBar?.title = "GDSC New Activity Instance"
+
+        //  Find the view object
+
+
+        //  Listen to and handle the click listener
         backbutton.setOnClickListener {
-            finish() // closes this activity
+            // closes this activity
+
         }
     }
 }

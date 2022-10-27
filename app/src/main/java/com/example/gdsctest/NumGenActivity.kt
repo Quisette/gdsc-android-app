@@ -6,22 +6,35 @@ import android.widget.Button
 import android.widget.TextView
 
 class NumGenActivity : AppCompatActivity() {
+
+    //  Predefine the view references
     lateinit var generateButton: Button
     lateinit var numberText: TextView
+
+    var number = 0
+
+    //  This will be called once, when this activity starts
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_num_gen)
-        supportActionBar?.title = "Number Generator"
-        generateButton = findViewById(R.id.generateButton)
-        numberText = findViewById(R.id.numberText)
-        genNewNumber()
-        generateButton.setOnClickListener {
-            genNewNumber()
-        }
+
+
+        //  Update the status bar text to "Number Generator"
+
+
+        //  Find and assign the views
+        //  R.id.generateButton and R.id.numberText
+
+
+
+        //  Listen to and handle the click event of the generate button
+
+
     }
-    fun genNewNumber(){
-        val number =(0..10).random()
-        numberText.text = number.toString()
+
+    //  A custom function to generate a number
+    //  this returns an integer between 0 and 100
+    fun genNewNumber() : Int {
+        return (0..100).random()
     }
 }
