@@ -38,6 +38,7 @@ class TimerActivity : AppCompatActivity() {
         textClock = findViewById(R.id.textClock)
         minuteInput = findViewById(R.id.minuteInput)
         secondInput= findViewById(R.id.secondInput)
+
         // when button is clicked:
         toggleButton.setOnClickListener {
             // error detection of invalid input
@@ -48,8 +49,8 @@ class TimerActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             // pass the inputs and transform them into Int format
-            var minute  = Integer.parseInt(minuteInput.text.toString())
-            var second  = Integer.parseInt(secondInput.text.toString())
+            val minute  = Integer.parseInt(minuteInput.text.toString())
+            val second  = Integer.parseInt(secondInput.text.toString())
 
             // calculates the total seconds
 //            totalSeconds =  second + 60 * minute
