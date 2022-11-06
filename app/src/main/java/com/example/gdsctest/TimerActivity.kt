@@ -23,23 +23,25 @@ class TimerActivity : AppCompatActivity() {
     // A flag indicating if the timer is running
     var isTicking  = false
 
+    // Time Remaining
+    var remainingTime  = 0
+
     //  Our countdown timer
     lateinit var countDownTimer: CountDownTimer
 
-    // A flag indicating if the timer is running
-    var remainingTime = 0
+
 
 
     // when this activity starts:
     //  onCreate will be run once
     override fun onCreate(savedInstanceState: Bundle?) {
+
         // Default initialization, don't touch these two lines
-        mediaPlayer = MediaPlayer.create( this, R.raw.se); // media player initialization
+        mediaPlayer = MediaPlayer.create( this, R.raw.se)  // media player initialization
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
 
         //  Below this line, we add our own initialization code
-
 
         // Change the status bar text
         supportActionBar?.title = "GDSC Countdown Timer"
@@ -51,37 +53,6 @@ class TimerActivity : AppCompatActivity() {
         minuteInput = findViewById(R.id.minuteInput)
         secondInput= findViewById(R.id.secondInput)
 
-        // Define the countdown timer, with adjustable time and countdown interval, in milliseconds
-        countDownTimer = object:CountDownTimer(remainingTime * 1000L, 1000L){
-            override fun onTick(remainingTimeRaw: Long) {
-                // update remainingTime to ticked value
-                remainingTime = (remainingTimeRaw/1000).toInt()
-                // parse remainingTime into normal view
-                val secondNumber = remainingTime % 60
-                val minuteNumber =(remainingTime - secondNumber)/60
-                //add extra zeros on one-digit second/minute number
-                val secondStr = if(secondNumber < 10) "0$secondNumber" else secondNumber.toString()
-                val minuteStr = if(minuteNumber < 10) "0$minuteNumber" else minuteNumber.toString()
-                // change the text of textClock
-                textClock.text = "$minuteStr:$secondStr"
-            }
-
-            override fun onFinish() {
-                // change the toggleButton text to "start"
-                toggleButton.text = "start"
-                // set the timer status to "not ticking"
-                isTicking = false
-                // play sounds
-                mediaPlayer.start()
-                // toast a message to indicate that countdown has completed
-                Toast.makeText(this@TimerActivity,"time's up!",Toast.LENGTH_SHORT).show()
-                // hide the reset button
-                resetButton.visibility = View.GONE
-
-            }
-        }
-
-        // when the start button is clicked:
         toggleButton.setOnClickListener {
             // error detection of invalid input
             // the program will crash on empty input without this detection
@@ -91,14 +62,14 @@ class TimerActivity : AppCompatActivity() {
                 // force the function to end
                 return@setOnClickListener
             }
-
             // pass the inputs and transform them into Int format
             val minute  = Integer.parseInt(minuteInput.text.toString())
             val second  = Integer.parseInt(secondInput.text.toString())
 
             // if the remaining time reaches to zero, the remaining time should be reset.
             // Otherwise, remaining time should be its current state.
-            remainingTime = if(remainingTime == 0 ) ( second + 60 * minute) else remainingTime
+
+            remainingTime = if(remainingTime == 0) (second + 60 * minute) else remainingTime
 
             //  If the timer is not running
             if(!isTicking){
@@ -106,17 +77,45 @@ class TimerActivity : AppCompatActivity() {
                 resetButton.visibility = View.VISIBLE       // shows reset button
                 toggleButton.text = "pause"                 // change the text of toggle button
 
-            //  Start the timer
+                //  Start the timer
+                countDownTimer = object:CountDownTimer(remainingTime*1000L, 1000L){
 
+                    override fun onFinish() {
+                        // change the toggleButton text to "start"
+                        toggleButton.text = "start"
+                        // set the timer status to "not ticking"
+                        isTicking = false
+                        // play sounds
+                        mediaPlayer.start()
+                        // toast a message to indicate that countdown has completed
+                        Toast.makeText(this@TimerActivity,"time's up!",Toast.LENGTH_SHORT).show()
+                        // hide the reset button
+                        resetButton.visibility = View.GONE
+
+                    }
+                    override fun onTick(RawTime: Long) {
+                        // update remainingTime to ticked value
+                        remainingTime = (RawTime/1000).toInt()
+
+                        // parse remainingTime into normal view
+                        val secondNumber = remainingTime % 60
+                        val minuteNumber =(remainingTime - secondNumber)/60
+                        //add extra zeros on one-digit second/minute number
+                        val secondStr = if(secondNumber < 10) "0$secondNumber" else secondNumber.toString()
+                        val minuteStr = if(minuteNumber < 10) "0$minuteNumber" else minuteNumber.toString()
+                        // change the text of textClock
+                        textClock.text = "$minuteStr:$secondStr"
+                    }
+
+
+                }
                 countDownTimer.start()
-            }
 
-            //  If the timer is already running, this button works as a pause button
-            else {
+
+            } else { //  If the timer is already running, this button works as a pause button
 
                 // pause the timer
                 countDownTimer.cancel()
-
                 //  Update the button text and status
                 toggleButton.text = "resume"
                 isTicking = false
@@ -144,6 +143,13 @@ class TimerActivity : AppCompatActivity() {
                 resetButton.visibility = View.GONE
             }
         }
+
+        // Define the countdown timer, with adjustable time and countdown interval, in milliseconds
+
+
+
+        // when the start button is clicked:
+
 
 
 
